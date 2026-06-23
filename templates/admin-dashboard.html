@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <title>Admin Dashboard - AutoWash</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+        <link href="/img/favicon.ico" rel="icon">
+        <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link href="/lib/flaticon/font/flaticon.css" rel="stylesheet">
+        <link href="/lib/animate/animate.min.css" rel="stylesheet">
+        <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="top-bar">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="logo">
+                            <a href="/admin/dashboard">
+                                <h1>Auto<span>Wash</span></h1>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-7 d-none d-lg-block">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="top-bar-item">
+                                    <div class="top-bar-icon"><i class="far fa-clock"></i></div>
+                                    <div class="top-bar-text">
+                                        <h3>Opening Hour</h3>
+                                        <p>Mon - Fri, 8:00 - 9:00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="top-bar-item">
+                                    <div class="top-bar-icon"><i class="fa fa-phone-alt"></i></div>
+                                    <div class="top-bar-text">
+                                        <h3>Call Us</h3>
+                                        <p>+012 345 6789</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="top-bar-item">
+                                    <div class="top-bar-icon"><i class="far fa-envelope"></i></div>
+                                    <div class="top-bar-text">
+                                        <h3>Email Us</h3>
+                                        <p>info@example.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-bar">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+                    <a href="#" class="navbar-brand">MENU</a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                        <div class="navbar-nav mr-auto">
+                            <a href="/admin/dashboard" class="nav-item nav-link active">Dashboard</a>
+                            <a href="#appointments" class="nav-item nav-link">Appointments</a>
+                        </div>
+                        <div class="ml-auto">
+                            <a class="btn btn-custom" href="/admin/dashboard">Admin Home</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2>Admin Dashboard</h2>
+                    </div>
+                    <div class="col-12">
+                        <a href="/admin/dashboard">Admin</a>
+                        <a href="/admin/dashboard">Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-bookings">
+            <div class="container">
+                <div class="section-header text-center">
+                    <p>Appointments</p>
+                    <h2>Manage Car Wash Bookings</h2>
+                </div>
+
+                <div class="admin-dashboard-grid">
+                    <div class="admin-stat">
+                        <i class="far fa-calendar-check"></i>
+                        <div>
+                            <span th:text="${totalBookings}">0</span>
+                            <p>Total Appointments</p>
+                        </div>
+                    </div>
+                    <div class="admin-stat">
+                        <i class="far fa-clock"></i>
+                        <div>
+                            <span th:text="${pendingBookings}">0</span>
+                            <p>Pending</p>
+                        </div>
+                    </div>
+                    <div class="admin-stat">
+                        <i class="far fa-check-circle"></i>
+                        <div>
+                            <span th:text="${confirmedBookings}">0</span>
+                            <p>Confirmed</p>
+                        </div>
+                    </div>
+                    <div class="admin-stat">
+                        <i class="fa fa-car"></i>
+                        <div>
+                            <span th:text="${completedBookings}">0</span>
+                            <p>Completed</p>
+                        </div>
+                    </div>
+                    <div class="admin-stat">
+                        <i class="far fa-times-circle"></i>
+                        <div>
+                            <span th:text="${cancelledBookings}">0</span>
+                            <p>Cancelled</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+                <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+                <div class="admin-empty" th:if="${#lists.isEmpty(bookings)}">
+                    <i class="far fa-calendar-alt"></i>
+                    <h3>No appointments yet</h3>
+                    <p>New customer appointments will appear here after the booking form is submitted.</p>
+                </div>
+
+                <div class="table-responsive" id="appointments" th:unless="${#lists.isEmpty(bookings)}">
+                    <table class="table admin-bookings-table">
+                        <thead>
+                            <tr>
+                                <th>Booking</th>
+                                <th>Person Details</th>
+                                <th>Appointment</th>
+                                <th>Customer Notes</th>
+                                <th>Status Update</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="booking : ${bookings}">
+                                <td>
+                                    <strong th:text="'#' + ${booking.id}">#1</strong>
+                                    <span th:class="'status-pill status-' + ${#strings.toLowerCase(booking.status)}" th:text="${booking.status}">PENDING</span>
+                                </td>
+                                <td>
+                                    <strong th:text="${booking.customerName}">Customer Name</strong>
+                                    <a th:href="'mailto:' + ${booking.email}" th:text="${booking.email}">email@example.com</a>
+                                    <a th:href="'tel:' + ${booking.phone}" th:text="${booking.phone}">0123456789</a>
+                                </td>
+                                <td>
+                                    <strong th:text="${booking.serviceType}">Basic Wash</strong>
+                                    <span th:text="${booking.bookingDate}">2026-06-19</span>
+                                </td>
+                                <td th:text="${booking.description}">Booking notes</td>
+                                <td>
+                                    <form class="admin-status-form" th:action="@{/admin/bookings/{id}/status(id=${booking.id})}" method="post">
+                                        <select name="status" class="form-control">
+                                            <option th:each="statusOption : ${statuses}"
+                                                    th:value="${statusOption}"
+                                                    th:text="${statusOption}"
+                                                    th:selected="${statusOption == booking.status}">
+                                                PENDING
+                                            </option>
+                                        </select>
+                                        <button class="btn btn-custom" type="submit">
+                                            <i class="fa fa-save"></i>
+                                            Update
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-contact">
+                            <h2>Get In Touch</h2>
+                            <p><i class="fa fa-map-marker-alt"></i>123 Street, New York, USA</p>
+                            <p><i class="fa fa-phone-alt"></i>+012 345 67890</p>
+                            <p><i class="fa fa-envelope"></i>info@example.com</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-link">
+                            <h2>Admin Links</h2>
+                            <a href="/admin/dashboard">Dashboard</a>
+                            <a href="#appointments">Appointments</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-link">
+                            <h2>Status Tools</h2>
+                            <a href="#appointments">Update Status</a>
+                            <a href="/admin/dashboard">Refresh Dashboard</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-newsletter">
+                            <h2>Newsletter</h2>
+                            <form>
+                                <input class="form-control" placeholder="Full Name">
+                                <input class="form-control" placeholder="Email">
+                                <button class="btn btn-custom">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container copyright">
+                <p>&copy; <a href="#">Your Site Name</a>, All Right Reserved. Designed By <a href="https://htmlcodex.com">HTML Codex</a></p>
+            </div>
+        </div>
+
+        <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+        <div id="loader" class="show">
+            <div class="loader"></div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="/lib/easing/easing.min.js"></script>
+        <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="/lib/waypoints/waypoints.min.js"></script>
+        <script src="/lib/counterup/counterup.min.js"></script>
+        <script src="/js/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,7 @@
+com\carwash\carwash\Booking.class
+com\carwash\carwash\BookingRepository.class
+com\carwash\carwash\HomeController.class
+com\carwash\carwash\BookingController.class
+com\carwash\carwash\AdminController.class
+com\carwash\carwash\CarwashApplication.class
+com\carwash\carwash\AppointmentStatusController.class
